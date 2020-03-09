@@ -68,8 +68,10 @@ first();
 second();
 
 function learnJS(lang, callback) {
+    setTimeout( function () {
     console.log("Я учу " + lang);
     callback();
+    }, 1500 );
 }
 
 function done() {
