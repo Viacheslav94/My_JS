@@ -103,19 +103,19 @@ for (let key of mass) {   // порядковый номер for (let key in mas
 
 //сортировать по алфавиту
 // let arr = ["rdsr", "dnbdnb", "avg", "brf"],
-//     i = arr.join(", ");
+//     i = arr.sort();
 
 // console.log(i);
 
 
-// let arr = [1,15,4],
-//     i = arr.sort(compareNum);
+let arr = [1,15,4],
+    i = arr.sort(compareNum);
 
-// function compareNum(a,b) {
-//     return a-b;
-// }
+function compareNum(a,b) {
+    return a-b;
+}
 
-// console.log(arr);
+console.log(arr);
 
 // объектно орентированное програмирование
 let soldier = {
