@@ -90,5 +90,36 @@ window.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     });
 
+    let body = document.querySelector('body');
+    class Options {
+        constructor (height = 100, width = 500, bg, fontSize, textAlign) {
+        //     this.height = 'height: 100px;';
+        //     this.width = 'width: 50px;';
+        //     this.bg = 'background: #ccc;';
+        //     this.fontSize = 'font-size: 30px;';
+        //     this.textAlign = 'text-align: center;';
+        // }
+        // createDiv () {
+        //     let div = document.createElement('div');
+        //         div.textContent = (prompt('Введите текс для нового блока', ''));
+        //         div.cssText = (this.height, this.width, this.bg, this.fontSize, this.textAlign);
+        //     return div;
+        // }
+            this.height = 'height: ' + height + 'px';
+            this.width = 'width: ' + width + 'px';
+            this.bg = 'background: ' + bg;
+            this.fontSize = 'font-size: ' + fontSize + 'px';
+            this.textAlign = 'text-align :' + textAlign;
+        }
+        createDiv () {
+            let div = document.createElement('div');
+            body.appendChild(div);
+            div.textContent = (prompt('Введите текс для нового блока', ''));
+            div.style.cssText = `${this.height}; ${this.width}; ${this.bg}; ${this.fontSize}; ${this.textAlign};`;
+            return div;
+        }
+    }
 
+    const block = new Options(100, 800, '#ccc', 50, 'center');
+    console.log(block.createDiv());
 });
