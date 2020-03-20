@@ -90,36 +90,82 @@ window.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     });
 
-    let body = document.querySelector('body');
-    class Options {
-        constructor (height = 100, width = 500, bg, fontSize, textAlign) {
-        //     this.height = 'height: 100px;';
-        //     this.width = 'width: 50px;';
-        //     this.bg = 'background: #ccc;';
-        //     this.fontSize = 'font-size: 30px;';
-        //     this.textAlign = 'text-align: center;';
-        // }
-        // createDiv () {
-        //     let div = document.createElement('div');
-        //         div.textContent = (prompt('Введите текс для нового блока', ''));
-        //         div.cssText = (this.height, this.width, this.bg, this.fontSize, this.textAlign);
-        //     return div;
-        // }
-            this.height = 'height: ' + height + 'px';
-            this.width = 'width: ' + width + 'px';
-            this.bg = 'background: ' + bg;
-            this.fontSize = 'font-size: ' + fontSize + 'px';
-            this.textAlign = 'text-align :' + textAlign;
-        }
-        createDiv () {
-            let div = document.createElement('div');
-            body.appendChild(div);
-            div.textContent = (prompt('Введите текс для нового блока', ''));
-            div.style.cssText = `${this.height}; ${this.width}; ${this.bg}; ${this.fontSize}; ${this.textAlign};`;
-            return div;
-        }
-    }
+    // let body = document.querySelector('body');
+    // class Options {
+    //     constructor (height = 100, width = 500, bg, fontSize, textAlign) {
+    //     //     this.height = 'height: 100px;';
+    //     //     this.width = 'width: 50px;';
+    //     //     this.bg = 'background: #ccc;';
+    //     //     this.fontSize = 'font-size: 30px;';
+    //     //     this.textAlign = 'text-align: center;';
+    //     // }
+    //     // createDiv () {
+    //     //     let div = document.createElement('div');
+    //     //         div.textContent = (prompt('Введите текс для нового блока', ''));
+    //     //         div.cssText = (this.height, this.width, this.bg, this.fontSize, this.textAlign);
+    //     //     return div;
+    //     // }
+    //         this.height = 'height: ' + height + 'px';
+    //         this.width = 'width: ' + width + 'px';
+    //         this.bg = 'background: ' + bg;
+    //         this.fontSize = 'font-size: ' + fontSize + 'px';
+    //         this.textAlign = 'text-align :' + textAlign;
+    //     }
+    //     createDiv () {
+    //         let div = document.createElement('div');
+    //         body.appendChild(div);
+    //         div.textContent = (prompt('Введите текс для нового блока', ''));
+    //         div.style.cssText = `${this.height}; ${this.width}; ${this.bg}; ${this.fontSize}; ${this.textAlign};`;
+    //         return div;
+    //     }
+    // }
 
-    const block = new Options(100, 800, '#ccc', 50, 'center');
-    console.log(block.createDiv());
+    // const block = new Options(100, 800, '#ccc', 50, 'center');
+    // console.log(block.createDiv());
+
+    //form
+
+    let message = {
+        loading: ' Загрузка...',
+        success: 'Спасибо! скоро мы с вами свяжемся',
+        failure: 'Что то не так'
+    };
+
+    let form = document.querySelector('.main-form'),
+        input = form.getElementsByTagName('input'),
+        statusMessage = document.createElement('div');
+
+        statusMessage.classList.add('status');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+
+        let request = new XMLHttpRequest();
+        request.open('POST', 'server.php');
+        // request.setRequestHeader ('Content-Type', 'application/x-www-form-urlencoded');
+        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+        let formData = new FormData(form);
+        let obj = {};
+        formData.forEach(function(value, key) {
+            obj[key] = value;
+        });
+        let json = JSON.stringify(obj);
+        // request.send(formData);
+        request.send(json);
+
+        request.addEventListener('readystatechange', function() {
+            if (request.readyState < 4) {
+                statusMessage.innerHTML = message.loading;
+            } else if(request.readyState === 4 && request.status == 200) {
+                statusMessage.innerHTML = message.success;
+            } else {
+                statusMessage.innerHTML = message.failure;
+            }
+        });
+        for (let i = 0; i < input.length; i++) {
+            input[i].value = '';
+        }
+    });
 });
